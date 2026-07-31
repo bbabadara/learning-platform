@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learning Platform
 
-## Getting Started
+Plateforme d'apprentissage en ligne regroupant les 12 formations « Modern-*-Engineering »
+(cours en Markdown, quiz QCM et flashcards), avec comptes utilisateurs et suivi de progression.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router, TypeScript, Tailwind CSS v4)
+- Prisma 6 + SQLite
+- NextAuth 4 (identifiants email / mot de passe, session JWT)
+- react-markdown + remark-gfm + remark-math + rehype-katex + mermaid
+- lucide-react (icônes)
+
+## Démarrage
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvrir http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Compte démo : `demo@formation.dev` / `demo1234`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Ingestion du contenu
 
-## Learn More
+Le contenu est lu dans les dépôts `../Modern-*-Engineering` (un dossier par formation,
+avec des chapitres `NN-…`, chacun contenant `course.md`, `quiz/` et `flashcards/`).
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run ingest
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Le script est idempotent : il fait des upserts sur les formations/chapitres et
+réécrit les quiz/flashcards à chaque exécution.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Commandes utiles
 
-## Deploy on Vercel
+```bash
+npm run lint      # ESLint
+npm run build     # build de production
+npm run typecheck # tsc --noEmit
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Routes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/` — liste des formations
+- `/formation/[slug]` — chapitres d'une formation + progression
+- `/formation/[slug]/[chapterNumber]` — chapitre (tabs cours / quiz / flashcards)
+- `/login` — connexion
+- `/register` — création de compte
+- `POST /api/register` — inscription (email, nom, mot de passe ≥ 8 caractères)
+- `POST /api/progress` — enregistrement de la progression (authentifié)
+
+## Base de données
+
+Le fichier SQLite est `prisma/dev.db`. Le schéma est dans `prisma/schema.prisma`.
+
+## Déploiement (Vercel gratuit + Neon Postgres)
+
+L'app utilise une base de données : **SQLite ne fonctionne pas sur Vercel**
+(fichiers en lecture seule). En production, on utilise un Postgres hébergé gratuit chez
+[Neon](https://neon.tech).
+
+### 1. Créer la base Neon
+
+1. Aller sur https://neon.tech, créer un compte, créer un projet (région : près de toi).
+2. Copier la **connection string** (onglet Connect → `postgresql://...`).
+3. Mettre cette string dans `.env` → `DATABASE_URL`.
+
+### 2. Initialiser et peupler la base
+
+```bash
+npm run db:push   # crée les tables dans Postgres
+npm run ingest    # charge les 12 formations (depuis ../Modern-*-Engineering)
+```
+
+### 3. Créer le dépôt GitHub et pousser
+
+```bash
+git remote add origin https://github.com/bbabadara/learning-platform.git
+git push -u origin main
+git push -u origin deploy
+```
+
+### 4. Créer le projet Vercel
+
+1. Aller sur https://vercel.com → **Add New → Project** → importer le dépôt GitHub.
+2. Framework : Next.js (détecté automatiquement). Build : `npm run build`.
+3. Ajouter les variables d'environnement dans **Settings → Environment Variables** :
+   - `DATABASE_URL` → la connection string Neon
+   - `NEXTAUTH_SECRET` → une clé aléatoire (ex. `openssl rand -base64 32`)
+   - `NEXTAUTH_URL` → `https://<ton-projet>.vercel.app` (l'URL donnée par Vercel)
+4. Déployer. La branche `main` (production) contient l'app ; la branche `deploy`
+   porte les changements de déploiement avant leur fusion.

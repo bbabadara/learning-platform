@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Formation {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  tagline     String
+  description String
+  icon        String
+  color       String
+  order       Int
+  chapters    Chapter[]
+  createdAt   DateTime  @default(now())
+}
+
+model Chapter {
+  id             String         @id @default(cuid())
+  formationId    String
+  formation      Formation      @relation(fields: [formationId], references: [id], onDelete: Cascade)
+  number         Int
+  title          String
+  folderName     String
+  summary        String
+  objectives     Json
+  prerequisites  Json
+  courseMarkdown String
+  hasQuiz        Boolean        @default(false)
+  hasFlashcards  Boolean        @default(false)
+  quizQuestions  QuizQuestion[]
+  flashcards     Flashcard[]
+  progress       UserProgress[]
+  createdAt      DateTime       @default(now())
+
+  @@unique([formationId, number])
+}
+
+model QuizQuestion {
+  id           String  @id @default(cuid())
+  chapterId    String
+  chapter      Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  number       Int
+  question     String
+  options      Json
+  correctIndex Int
+  explanation  String
+}
+
+model Flashcard {
+  id        String  @id @default(cuid())
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  number    Int
+  question  String
+  answer    String
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String
+  passwordHash String
+  isDemo       Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  progress     UserProgress[]
+}
+
+model UserProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  chapterId       String
+  chapter         Chapter   @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status          String    @default("not_started")
+  quizScore       Int?
+  quizCompletedAt DateTime?
+  lastReadAt      DateTime?
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([userId, chapterId])
+}
