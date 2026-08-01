@@ -142,7 +142,7 @@ export default function FlashcardsDeck({ cards }: { cards: FlashcardData[] }) {
       <button
         onClick={() => setFlipped((f) => !f)}
         className={cn(
-          "relative flex min-h-72 w-full flex-col items-center justify-center rounded-2xl border-2 p-8 text-center transition-all",
+          "relative flex min-h-64 w-full flex-col items-center justify-center rounded-2xl border-2 p-6 text-center transition-all sm:min-h-72 sm:p-8",
           flipped
             ? "border-indigo-300 bg-indigo-50 dark:border-indigo-700 dark:bg-indigo-950/40"
             : "border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-zinc-600",
@@ -151,7 +151,7 @@ export default function FlashcardsDeck({ cards }: { cards: FlashcardData[] }) {
         <span className="absolute left-4 top-4 text-xs font-medium uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
           {flipped ? "Réponse" : "Question"}
         </span>
-        <p className="max-w-lg text-xl font-semibold leading-8 text-zinc-900 dark:text-zinc-50">
+        <p className="max-w-lg text-lg font-semibold leading-8 text-zinc-900 dark:text-zinc-50 sm:text-xl">
           {flipped ? card.answer : card.question}
         </p>
         <span className="absolute bottom-4 text-xs text-zinc-400 dark:text-zinc-500">
@@ -159,11 +159,11 @@ export default function FlashcardsDeck({ cards }: { cards: FlashcardData[] }) {
         </span>
       </button>
 
-      <div className="mt-5 flex items-center justify-center gap-3">
+      <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
         <button
           onClick={prev}
           disabled={index === 0}
-          className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 px-2.5 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:px-3"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
@@ -172,13 +172,13 @@ export default function FlashcardsDeck({ cards }: { cards: FlashcardData[] }) {
           <>
             <button
               onClick={() => mark("unknown")}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-500"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-500 sm:px-4"
             >
               <X className="h-4 w-4" /> À revoir
             </button>
             <button
               onClick={() => mark("known")}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-500"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 sm:px-4"
             >
               <Check className="h-4 w-4" /> Acquise
             </button>
@@ -186,7 +186,7 @@ export default function FlashcardsDeck({ cards }: { cards: FlashcardData[] }) {
         ) : (
           <button
             onClick={() => setFlipped(true)}
-            className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 sm:px-5"
           >
             Voir la réponse
           </button>
@@ -195,7 +195,7 @@ export default function FlashcardsDeck({ cards }: { cards: FlashcardData[] }) {
         <button
           onClick={next}
           disabled={index === order.length - 1}
-          className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 px-2.5 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 sm:px-3"
         >
           <ChevronRight className="h-4 w-4" />
         </button>

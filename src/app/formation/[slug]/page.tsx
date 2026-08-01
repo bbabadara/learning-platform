@@ -54,21 +54,21 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
 function StatusBadge({ status }: { status: string }) {
   if (status === "completed") {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400">
-        <CheckCircle2 className="h-3.5 w-3.5" /> Terminé
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-1.5 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400 sm:px-2.5">
+        <CheckCircle2 className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Terminé</span>
       </span>
     );
   }
   if (status === "in_progress") {
     return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-950 dark:text-amber-400">
-        <PlayCircle className="h-3.5 w-3.5" /> En cours
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-amber-50 px-1.5 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-950 dark:text-amber-400 sm:px-2.5">
+        <PlayCircle className="h-3.5 w-3.5" /> <span className="hidden sm:inline">En cours</span>
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
-      <Circle className="h-3.5 w-3.5" /> Non commencé
+    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-1.5 py-0.5 text-xs font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400 sm:px-2.5">
+      <Circle className="h-3.5 w-3.5" /> <span className="hidden sm:inline">Non commencé</span>
     </span>
   );
 }
@@ -107,15 +107,15 @@ export default async function FormationPage(props: PageProps<"/formation/[slug]"
           ← Toutes les formations
         </Link>
 
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-3 sm:gap-4">
           <span
-            className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-white shadow-sm"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white shadow-sm sm:h-16 sm:w-16"
             style={{ backgroundColor: formation.color }}
           >
-            <Icon className="h-8 w-8" />
+            <Icon className="h-6 w-6 sm:h-8 sm:w-8" />
           </span>
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+          <div className="min-w-0">
+            <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
               {formation.title}
             </h1>
             {formation.tagline && (

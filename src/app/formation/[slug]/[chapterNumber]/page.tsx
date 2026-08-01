@@ -108,14 +108,14 @@ export default async function ChapterPage(
               key={tab.id}
               href={`/formation/${formation.slug}/${number}?tab=${tab.id}`}
               className={cn(
-                "inline-flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                "inline-flex flex-1 flex-col items-center justify-center gap-1 rounded-lg px-1 py-2 text-xs font-medium transition-colors sm:flex-row sm:gap-2 sm:px-3 sm:py-2 sm:text-sm",
                 active
                   ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
                   : "text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800",
               )}
             >
               <Icon className="h-4 w-4" />
-              <span className="hidden sm:inline">{tab.label}</span>
+              <span>{tab.label}</span>
             </Link>
           );
         })}
@@ -143,34 +143,38 @@ export default async function ChapterPage(
         </div>
       )}
 
-      <div className="mt-10 flex items-center justify-between gap-4 border-t border-zinc-200 pt-6 dark:border-zinc-800">
+      <div className="mt-10 flex items-stretch justify-between gap-4 border-t border-zinc-200 pt-6 dark:border-zinc-800">
         {prevChapter ? (
           <Link
             href={`/formation/${formation.slug}/${prevChapter.number}`}
-            className="group inline-flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
+            className="group inline-flex min-w-0 flex-1 items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
           >
-            <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
-            <span>
+            <ChevronLeft className="h-4 w-4 shrink-0 transition-transform group-hover:-translate-x-0.5" />
+            <span className="min-w-0">
               <span className="block text-xs text-zinc-400 dark:text-zinc-500">Précédent</span>
-              Chapitre {prevChapter.number} — {prevChapter.title}
+              <span className="block truncate">
+                Chapitre {prevChapter.number} — {prevChapter.title}
+              </span>
             </span>
           </Link>
         ) : (
-          <span />
+          <span className="flex-1" />
         )}
         {nextChapter ? (
           <Link
             href={`/formation/${formation.slug}/${nextChapter.number}`}
-            className="group inline-flex items-center gap-2 text-right text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
+            className="group inline-flex min-w-0 flex-1 items-center justify-end gap-2 text-right text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-50"
           >
-            <span>
+            <span className="min-w-0">
               <span className="block text-xs text-zinc-400 dark:text-zinc-500">Suivant</span>
-              Chapitre {nextChapter.number} — {nextChapter.title}
+              <span className="block truncate">
+                Chapitre {nextChapter.number} — {nextChapter.title}
+              </span>
             </span>
-            <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            <ChevronRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" />
           </Link>
         ) : (
-          <span />
+          <span className="flex-1" />
         )}
       </div>
     </div>
