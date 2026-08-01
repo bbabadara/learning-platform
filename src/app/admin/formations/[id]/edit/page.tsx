@@ -31,10 +31,10 @@ export default async function EditFormationPage({
   return (
     <div>
       <Link
-        href="/admin"
+        href="/admin/formations"
         className="mb-4 inline-block text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-500"
       >
-        ← Retour au tableau de bord
+        ← Retour aux formations
       </Link>
       <h2 className="mb-5 text-xl font-bold text-zinc-900 dark:text-zinc-50">
         Modifier la formation

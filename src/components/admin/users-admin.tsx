@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserPlus, ShieldCheck, ShieldX, Trash2 } from "lucide-react";
+import { UserPlus, ShieldCheck, ShieldX, Trash2, Ban, UserCheck } from "lucide-react";
 import type { AdminUser } from "@/app/admin/users/page";
 
 const inputClass =
@@ -227,6 +227,27 @@ export default function UsersAdmin({ users }: { users: AdminUser[] }) {
                           className="inline-flex items-center gap-1 rounded-lg border border-zinc-200 px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 disabled:opacity-50"
                         >
                           <ShieldCheck className="h-3.5 w-3.5" /> Rendre admin
+                        </button>
+                      )}
+                      {u.status === "active" && !u.isDemo && (
+                        <button
+                          onClick={() => {
+                            if (!window.confirm(`Désactiver le compte de ${u.name} ? Il ne pourra plus se connecter.`)) return;
+                            runAction(u.id, { status: "disabled" });
+                          }}
+                          disabled={busyId === u.id}
+                          className="inline-flex items-center gap-1 rounded-lg border border-amber-200 px-2.5 py-1.5 text-xs font-medium text-amber-700 transition-colors hover:bg-amber-50 dark:border-amber-900 dark:text-amber-400 dark:hover:bg-amber-950 disabled:opacity-50"
+                        >
+                          <Ban className="h-3.5 w-3.5" /> Désactiver
+                        </button>
+                      )}
+                      {u.status === "disabled" && (
+                        <button
+                          onClick={() => runAction(u.id, { status: "active" })}
+                          disabled={busyId === u.id}
+                          className="inline-flex items-center gap-1 rounded-lg border border-emerald-200 px-2.5 py-1.5 text-xs font-medium text-emerald-700 transition-colors hover:bg-emerald-50 dark:border-emerald-900 dark:text-emerald-400 dark:hover:bg-emerald-950 disabled:opacity-50"
+                        >
+                          <UserCheck className="h-3.5 w-3.5" /> Réactiver
                         </button>
                       )}
                       {u.role === "admin" && !u.isDemo && (
