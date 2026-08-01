@@ -26,6 +26,14 @@ export default async function Navbar() {
             Accueil
           </Link>
           <ThemeToggle />
+          {session?.user?.role === "admin" && (
+            <Link
+              href="/admin"
+              className="text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
+            >
+              Admin
+            </Link>
+          )}
           {session?.user ? (
             <div className="flex items-center gap-2 sm:gap-3">
               <span className="hidden text-sm text-zinc-600 dark:text-zinc-300 sm:block">
