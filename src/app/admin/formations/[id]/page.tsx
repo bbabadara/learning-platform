@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Plus, Eye, Pencil } from "lucide-react";
+import { Plus, Eye, Pencil, ListChecks, Layers } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "@/components/admin/delete-button";
 
@@ -91,7 +91,19 @@ export default async function FormationChaptersPage({
                   {c._count.quizQuestions} QCM · {c._count.flashcards} flashcards
                 </p>
               </div>
-              <div className="flex shrink-0 items-center gap-2 text-sm">
+              <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 text-sm">
+                <Link
+                  href={`/admin/chapters/${c.id}/quiz`}
+                  className="inline-flex items-center gap-1 rounded-lg bg-zinc-100 px-3 py-1.5 font-medium text-zinc-700 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                >
+                  <ListChecks className="h-4 w-4" /> QCM
+                </Link>
+                <Link
+                  href={`/admin/chapters/${c.id}/flashcards`}
+                  className="inline-flex items-center gap-1 rounded-lg bg-zinc-100 px-3 py-1.5 font-medium text-zinc-700 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                >
+                  <Layers className="h-4 w-4" /> Flashcards
+                </Link>
                 <Link
                   href={`/admin/chapters/${c.id}/edit`}
                   className="rounded-lg bg-zinc-100 px-3 py-1.5 font-medium text-zinc-700 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"

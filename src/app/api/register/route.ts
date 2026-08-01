@@ -40,10 +40,11 @@ export async function POST(request: Request) {
 
   const passwordHash = await bcrypt.hash(password, 10);
   const user = await prisma.user.create({
-    data: { name, email, passwordHash },
+    data: { name, email, passwordHash, status: "pending" },
   });
 
   return NextResponse.json({
     user: { id: user.id, email: user.email, name: user.name },
+    message: "Votre compte est en attente de validation par un administrateur.",
   });
 }

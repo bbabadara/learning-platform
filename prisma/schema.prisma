@@ -67,6 +67,7 @@ model User {
   name         String
   passwordHash String
   role         String        @default("user")
+  status       String        @default("active")
   isDemo       Boolean       @default(false)
   createdAt    DateTime      @default(now())
   progress     UserProgress[]

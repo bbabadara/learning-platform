@@ -27,11 +27,14 @@ async function main() {
     try {
       const existing = await prisma.user.findUnique({ where: { email } });
       if (existing) {
-        await prisma.user.update({ where: { email }, data: { role: "admin", passwordHash } });
+        await prisma.user.update({
+          where: { email },
+          data: { role: "admin", status: "active", passwordHash },
+        });
         console.log(`Compte admin mis à jour : ${email}`);
       } else {
         await prisma.user.create({
-          data: { email, name: "Administrateur", passwordHash, role: "admin" },
+          data: { email, name: "Administrateur", passwordHash, role: "admin", status: "active" },
         });
         console.log(`Compte admin créé : ${email}`);
       }
