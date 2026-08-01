@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import SignOutButton from "./sign-out-button";
+import ThemeToggle from "./theme-toggle";
 
 export default async function Navbar() {
   const session = await getServerSession(authOptions);
@@ -24,6 +25,7 @@ export default async function Navbar() {
           >
             Accueil
           </Link>
+          <ThemeToggle />
           {session?.user ? (
             <div className="flex items-center gap-2 sm:gap-3">
               <span className="hidden text-sm text-zinc-600 dark:text-zinc-300 sm:block">
