@@ -1,8 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/providers";
 import Navbar from "@/components/navbar";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+};
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s — Formations Modern Engineering",
   },
   description:
-    "Plateforme d'apprentissage : 12 parcours complets (Frontend, Backend, DevOps, Java, PHP, Go, Python, Réseau, ...) avec cours, QCM et flashcards.",
+    "Plateforme d'apprentissage : 13 parcours complets (Frontend, Backend, DevOps, Java, PHP, Go, Python, Réseau, ...) avec cours, QCM et flashcards.",
 };
 
 export default function RootLayout({

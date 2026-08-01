@@ -220,14 +220,14 @@ export default function QuizRunner({
           <button
             onClick={validate}
             disabled={selected === null}
-            className="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-50"
+            className="w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 disabled:opacity-50 sm:w-auto sm:py-2.5"
           >
             Valider
           </button>
         ) : (
           <button
             onClick={next}
-            className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-500 sm:w-auto sm:py-2.5"
           >
             {isLast ? "Voir les résultats" : "Question suivante"}
             <ArrowRight className="h-4 w-4" />
