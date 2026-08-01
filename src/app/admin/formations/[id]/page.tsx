@@ -29,10 +29,10 @@ export default async function FormationChaptersPage({
   return (
     <div>
       <Link
-        href="/admin"
+        href="/admin/formations"
         className="mb-4 inline-block text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-500"
       >
-        ← Retour au tableau de bord
+        ← Toutes les formations
       </Link>
 
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">

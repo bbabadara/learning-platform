@@ -87,7 +87,7 @@ export default function MobileMenu({
                 <Link
                   href="/login"
                   onClick={close}
-                  className="mt-1 flex items-center gap-2.5 rounded-lg bg-zinc-900 px-3 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                  className="mt-1 flex items-center gap-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-600 px-3 py-2.5 text-sm font-medium text-white transition-colors"
                 >
                   <LogIn className="h-4 w-4" /> Se connecter
                 </Link>

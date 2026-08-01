@@ -12,8 +12,11 @@ export default async function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/80">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold text-zinc-900 dark:text-zinc-50">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-white">
+        <Link
+          href="/"
+          className="group flex items-center gap-2 font-semibold text-zinc-900 transition-opacity hover:opacity-80 dark:text-zinc-50"
+        >
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 text-sm font-bold text-white shadow-md shadow-indigo-500/30 transition-shadow group-hover:shadow-lg group-hover:shadow-indigo-500/40">
             M
           </span>
           <span className="hidden sm:block">Formations Modern Engineering</span>
@@ -60,7 +63,7 @@ export default async function Navbar() {
               </Link>
               <Link
                 href="/login"
-                className="rounded-lg bg-zinc-900 px-2.5 py-1.5 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 sm:px-3"
+                className="rounded-lg bg-gradient-to-r from-indigo-500 to-violet-600 px-2.5 py-1.5 text-sm font-medium text-white shadow-sm shadow-indigo-500/30 transition-all hover:shadow-md hover:shadow-indigo-500/40 sm:px-3"
               >
                 Se connecter
               </Link>
