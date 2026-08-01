@@ -25,7 +25,11 @@ export default function LoginForm() {
     setLoading(false);
 
     if (result?.error) {
-      setError("Email ou mot de passe incorrect.");
+      setError(
+        result.error.startsWith("Votre compte")
+          ? result.error
+          : "Email ou mot de passe incorrect.",
+      );
       return;
     }
 

@@ -14,7 +14,7 @@ export default async function AdminLayout({
             Administration
           </h1>
           <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-            Gérer les formations et les chapitres — {session.user.email}
+            Gérer les formations, les chapitres et les comptes — {session.user.email}
           </p>
         </div>
         <div className="flex items-center gap-4 text-sm font-medium">
@@ -23,6 +23,12 @@ export default async function AdminLayout({
             className="text-indigo-600 transition-colors hover:text-indigo-500"
           >
             Tableau de bord
+          </Link>
+          <Link
+            href="/admin/users"
+            className="text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+          >
+            Utilisateurs
           </Link>
           <Link
             href="/"

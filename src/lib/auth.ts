@@ -29,6 +29,14 @@ export const authOptions: NextAuthOptions = {
         const valid = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!valid) return null;
 
+        if (user.status !== "active") {
+          throw new Error(
+            user.status === "pending"
+              ? "Votre compte est en attente de validation par un administrateur."
+              : "Votre compte a été désactivé. Contactez un administrateur.",
+          );
+        }
+
         return {
           id: user.id,
           email: user.email,

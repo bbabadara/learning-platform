@@ -1,21 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterForm() {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccess(null);
 
     const res = await fetch("/api/register", {
       method: "POST",
@@ -30,22 +30,11 @@ export default function RegisterForm() {
       return;
     }
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
+    const data = await res.json().catch(() => null);
     setLoading(false);
-
-    if (result?.error) {
-      router.push("/login");
-      router.refresh();
-      return;
-    }
-
-    router.push("/");
-    router.refresh();
+    setSuccess(
+      data?.message ?? "Votre compte a bien été créé. Il doit être validé par un administrateur.",
+    );
   }
 
   return (
@@ -54,6 +43,19 @@ export default function RegisterForm() {
         <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600 dark:border-red-900 dark:bg-red-950 dark:text-red-400">
           {error}
         </p>
+      )}
+      {success && (
+        <div className="space-y-3">
+          <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-400">
+            {success}
+          </p>
+          <Link
+            href="/login"
+            className="block w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
+          >
+            Aller à la connexion
+          </Link>
+        </div>
       )}
       <div>
         <label htmlFor="name" className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
