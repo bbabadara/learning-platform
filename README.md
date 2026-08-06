@@ -51,6 +51,24 @@ npm run ingest
 Le script est idempotent : il fait des upserts sur les formations/chapitres et
 réécrit les quiz/flashcards à chaque exécution.
 
+### Dépôts des 13 formations
+
+Chaque dossier est un dépôt git à cloner dans `../` :
+
+- [Modern-Algorithms-Engineering](https://github.com/bbabadara/Modern-Algorithms-Engineering)
+- [Modern-Backend-Engineering](https://github.com/bbabadara/Modern-Backend-Engineering)
+- [Modern-Design-Patterns](https://github.com/bbabadara/Modern-Design-Patterns)
+- [Modern-DevOps-Engineering](https://github.com/bbabadara/Modern-DevOps-Engineering)
+- [Modern-Frontend-Engineering](https://github.com/bbabadara/Modern-Frontend-Engineering)
+- [Modern-Go-Engineering](https://github.com/bbabadara/Modern-Go-Engineering)
+- [Modern-IS-Engineering](https://github.com/bbabadara/Modern-IS-Engineering)
+- [Modern-Java-Engineering](https://github.com/bbabadara/Modern-Java-Engineering)
+- [Modern-Mobile-Engineering](https://github.com/bbabadara/Modern-Mobile-Engineering)
+- [Modern-Network-Engineering](https://github.com/bbabadara/Modern-Network-Engineering)
+- [Modern-PHP-Engineering](https://github.com/bbabadara/Modern-PHP-Engineering)
+- [Modern-Python-Engineering](https://github.com/bbabadara/Modern-Python-Engineering)
+- [Modern-SonarQube-Engineering](https://github.com/bbabadara/formation-sonarqube)
+
 ## Commandes utiles
 
 ```bash
