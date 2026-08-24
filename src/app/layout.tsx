@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/providers";
 import Navbar from "@/components/navbar";
+import { Analytics } from "@vercel/analytics/next"
 
 export const viewport: Viewport = {
   width: "device-width",
