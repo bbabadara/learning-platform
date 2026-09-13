@@ -20,6 +20,7 @@ import {
 } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 import Markdown from "@/components/markdown";
+import CourseReader from "@/components/course-reader";
 import QuizRunner, { type QuizQuestionData } from "@/components/quiz-runner";
 import FlashcardsDeck, { type FlashcardData } from "@/components/flashcards-deck";
 import ChapterTracker from "@/components/chapter-tracker";
@@ -163,6 +164,7 @@ export default async function ChapterPage(
 
         {activeTab === "cours" && (
           <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 sm:p-8">
+            <CourseReader content={chapter.courseMarkdown} />
             <Markdown content={chapter.courseMarkdown} />
           </div>
         )}
