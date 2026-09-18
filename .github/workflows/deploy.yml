@@ -12,6 +12,7 @@ concurrency:
 env:
   IMAGE: ghcr.io/bbabadara/learning-platform
   TAG: main
+  DATABASE_URL: postgresql://ci:ci@ci:5432/ci?sslmode=disable
 
 jobs:
   ci:
