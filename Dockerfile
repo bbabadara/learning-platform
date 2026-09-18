@@ -5,6 +5,7 @@
 # ---------------------------------------------------------------
 FROM node:22-slim AS deps
 WORKDIR /app
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
 COPY package.json package-lock.json ./
 RUN npm ci
 
