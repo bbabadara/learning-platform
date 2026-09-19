@@ -51,8 +51,6 @@ COPY --from=builder /app/node_modules/@prisma/client ./node_modules/@prisma/clie
 # Packages OpenTelemetry (instrumentation.ts les charge au runtime via imports dynamiques)
 COPY --from=deps /app/node_modules/@opentelemetry ./node_modules/@opentelemetry
 COPY --from=deps /app/node_modules/@grpc ./node_modules/@grpc
-COPY --from=deps /app/node_modules/@protobuf-ts ./node_modules/@protobuf-ts
-COPY --from=deps /app/node_modules/semantic-conventions ./node_modules/semantic-conventions
 
 # Schéma Prisma exposé (diagnostic / migrations manuelles)
 COPY --from=builder /app/prisma ./prisma
