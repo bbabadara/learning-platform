@@ -1,4 +1,4 @@
-name: CI/CD Production
+name: CI/CD Production - Sécurisé (Trivy)
 
 on:
   push:
@@ -16,8 +16,11 @@ env:
 
 jobs:
   ci:
-    name: Lint + Typecheck
+    name: Lint + Typecheck + Trivy
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,6 +33,40 @@ jobs:
 
       - name: Installation des dépendances
         run: npm ci
+
+      - name: Trivy FS scan (vulnérabilités dépendances)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-fs.sarif'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+          ignore-unfixed: true
+
+      - name: Upload Trivy FS results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-fs.sarif'
+
+      - name: Trivy Config scan (Dockerfile + IaC)
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-config.sarif'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+          ignore-unfixed: true
+
+      - name: Upload Trivy Config results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-config.sarif'
 
       - name: ESLint
         run: npm run lint
@@ -63,13 +100,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   docker:
-    name: Build + push image (GHCR)
+    name: Build + Trivy scan + push image (GHCR)
     needs: ci
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       id-token: write
+      security-events: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -84,7 +122,37 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Build & push
+      - name: Build image (local pour scan Trivy)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: |
+            local-scan:${{ github.sha }}
+            ${{ env.IMAGE }}:${{ env.TAG }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
+
+      - name: Trivy Image scan
+        uses: aquasecurity/trivy-action@0.24.0
+        with:
+          image-ref: 'local-scan:${{ github.sha }}'
+          format: 'sarif'
+          output: 'trivy-image.sarif'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+
+      - name: Upload Trivy Image results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-image.sarif'
+
+      - name: Push image vers GHCR
         uses: docker/build-push-action@v6
         with:
           context: .
