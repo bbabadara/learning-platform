@@ -50,6 +50,7 @@ jobs:
         if: always()
         with:
           sarif_file: 'trivy-fs.sarif'
+          category: 'trivy-fs'
 
       - name: Trivy Config scan (Dockerfile + IaC)
         uses: aquasecurity/trivy-action@v0.36.0
@@ -67,6 +68,7 @@ jobs:
         if: always()
         with:
           sarif_file: 'trivy-config.sarif'
+          category: 'trivy-config'
 
       - name: ESLint
         run: npm run lint
@@ -151,6 +153,7 @@ jobs:
         if: always()
         with:
           sarif_file: 'trivy-image.sarif'
+          category: 'trivy-image'
 
       - name: Push image vers GHCR
         uses: docker/build-push-action@v6
